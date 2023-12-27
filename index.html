@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .content {
+        width: 1300px;
+        margin: 0 auto;
+        display: flex;
+        gap: 20px;
+      }
+
+      .select {
+        width: 200px;
+        height: 30px;
+        padding: 5px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .products {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .product {
+        width: 300px;
+        padding: 5px;
+        border: 1px solid #928f8f;
+        border-radius: 10px;
+      }
+      .product__img {
+        width: 100%;
+        height: 150px;
+      }
+      .img {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        font-weight: 800;
+      }
+      .electro {
+        background-color: #1a51f8;
+      }
+      .appliances {
+        background-color: #6f1af8;
+      }
+      .book {
+        background-color: #d7314a;
+      }
+      .clothes {
+        background-color: #2cd55f;
+      }
+      .mebel {
+        background-color: #af6d36;
+      }
+      .sortMenu {
+        max-width: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="content">
+        <div class="sortMenu">
+          <label>
+            Сортировать по категориям.
+            <select v-model="categorySelect" class="category-select select">
+              <option value="">Все категории</option>
+              <option value="Electronics">Электроника</option>
+              <option value="Appliances">Бытовая техника</option>
+              <option value="book">Книги</option>
+              <option value="clothes">Одежда</option>
+              <option value="mebel">Мебель</option>
+            </select> </label
+          ><br />
+          <label>
+            Сортировать по цене.
+            <select v-model="orderSelect" class="order-select select">
+              <option @click="sortProduct" value=""></option>
+              <option @click="sortProduct" value="ascending">По возрастанию</option>
+              <option @click="sortProduct" value="descending">По убыванию</option>
+            </select>
+          </label>
+
+          <p>Выбрано {{categorySelect}}</p>
+          <p>Выбрано {{orderSelect}}</p>
+          <!-- <button @click="sortProduct">Сортировать</button> -->
+        </div>
+
+        <div class="products">
+          <template v-for="product in sortProductData" :key="product.id">
+            <div
+              class="product"
+              v-if="product.category === categorySelect || '' === categorySelect "
+            >
+              <div class="product__img">
+                <div class="electro img" v-if="product.category === 'Electronics'">IMG</div>
+                <div class="appliances img" v-else-if="product.category === 'Appliances'">IMG</div>
+                <div class="book img" v-else-if="product.category === 'book'">IMG</div>
+                <div class="clothes img" v-else-if="product.category === 'clothes'">IMG</div>
+                <div class="mebel img" v-else-if="product.category === 'mebel'">IMG</div>
+              </div>
+              <h2>{{ product.name }}</h2>
+              <p>Price: {{ product.price}}$</p>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+    <script>
+      const App = {
+        data: () => ({
+          productsData: [
+            {
+              id: 1,
+              name: 'Ноутбук',
+              category: 'Electronics',
+              price: 150,
+            },
+            {
+              id: 4,
+              name: 'Фотокамера',
+              category: 'Electronics',
+              price: 80,
+            },
+            {
+              id: 7,
+              name: 'Футболка',
+              category: 'clothes',
+              price: 11,
+            },
+            {
+              id: 2,
+              name: 'Смартфон',
+              category: 'Electronics',
+              price: 100,
+            },
+            {
+              id: 3,
+              name: 'Кофемашина',
+              category: 'Appliances',
+              price: 80,
+            },
+
+            {
+              id: 5,
+              name: 'Микроволновая печь',
+              category: 'Appliances',
+              price: 60,
+            },
+            {
+              id: 6,
+              name: 'Книга',
+              category: 'book',
+              price: 17,
+            },
+
+            {
+              id: 8,
+              name: 'Шапка',
+              category: 'clothes',
+              price: 12,
+            },
+            {
+              id: 9,
+              name: 'Стул',
+              category: 'mebel',
+              price: 35,
+            },
+            {
+              id: 10,
+              name: 'Стол',
+              category: 'mebel',
+              price: 45,
+            },
+          ],
+          sortProductData: [
+            {
+              id: 1,
+              name: 'Ноутбук',
+              category: 'Electronics',
+              price: 150,
+            },
+            {
+              id: 4,
+              name: 'Фотокамера',
+              category: 'Electronics',
+              price: 80,
+            },
+            {
+              id: 7,
+              name: 'Футболка',
+              category: 'clothes',
+              price: 11,
+            },
+            {
+              id: 2,
+              name: 'Смартфон',
+              category: 'Electronics',
+              price: 100,
+            },
+            {
+              id: 3,
+              name: 'Кофемашина',
+              category: 'Appliances',
+              price: 80,
+            },
+
+            {
+              id: 5,
+              name: 'Микроволновая печь',
+              category: 'Appliances',
+              price: 60,
+            },
+            {
+              id: 6,
+              name: 'Книга',
+              category: 'book',
+              price: 17,
+            },
+
+            {
+              id: 8,
+              name: 'Шапка',
+              category: 'clothes',
+              price: 12,
+            },
+            {
+              id: 9,
+              name: 'Стул',
+              category: 'mebel',
+              price: 35,
+            },
+            {
+              id: 10,
+              name: 'Стол',
+              category: 'mebel',
+              price: 45,
+            },
+          ],
+          text: 'asda',
+          categorySelect: '',
+          orderSelect: '',
+        }),
+        methods: {
+          sortProduct() {
+            if (this.orderSelect === 'ascending') {
+              this.sortProductData.sort((a, b) => {
+                return b.price - a.price;
+              });
+            } else if (this.orderSelect === 'descending') {
+              this.sortProductData.sort((a, b) => {
+                return a.price - b.price;
+              });
+            } else if (this.orderSelect === '') {
+              this.sortProductData = [...this.productsData];
+              console.log('я тут');
+            }
+          },
+        },
+      };
+      Vue.createApp(App).mount('#app');
+    </script>
+  </body>
+</html>
